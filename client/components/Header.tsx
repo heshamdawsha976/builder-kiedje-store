@@ -56,8 +56,8 @@ export function Header() {
 
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <div className="text-2xl font-bold text-gradient">كليديج</div>
-              <div className="text-sm text-gray-500 mr-2">Klydij</div>
+              <div className="text-2xl font-bold text-gradient">كليدج</div>
+              <div className="text-sm text-gray-500 mr-2">Kledje</div>
             </Link>
 
             {/* Mobile Menu */}
