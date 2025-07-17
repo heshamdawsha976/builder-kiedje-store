@@ -1,5 +1,5 @@
 {
-  "name": "fusion-starter",
+  "name": "kledje-store",
   "private": true,
   "type": "module",
   "pkg": {
@@ -22,8 +22,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "zod": "^3.23.8",
-    "zustand": "^5.0.6"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -73,7 +72,7 @@
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
-    "framer-motion": "^12.23.6",
+    "framer-motion": "^12.6.2",
     "globals": "^15.9.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.462.0",
