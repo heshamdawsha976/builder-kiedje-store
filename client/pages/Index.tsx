@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import {
   ArrowLeft,
   Sparkles,
-  Heart,
+  Leaf,
   Shield,
   Truck,
   Mail,
   Phone,
+  Droplets,
+  Sun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,15 +30,15 @@ export default function Index() {
             >
               <div className="space-y-2">
                 <Badge className="bg-brand-100 text-brand-700 mb-4">
-                  قريباً - متجر جديد
+                  منتجات طبيعية 100%
                 </Badge>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  جمالك يبدأ من
+                  بشرتك تستحق
                   <span className="text-gradient block">كليدج</span>
                 </h1>
                 <p className="text-xl text-gray-600 max-w-lg mx-auto lg:mx-0">
-                  متجر مستحضرات التجميل الأول المصمم خصيصاً للمرأة العربية بجودة
-                  عالمية وأسعار منافسة
+                  متجر العناية بالبشرة الطبيعية الأول في مصر. منتجات آمنة
+                  وفعّالة لجميع أنواع البشرة العربية
                 </p>
               </div>
 
@@ -47,27 +49,27 @@ export default function Index() {
                   asChild
                 >
                   <Link to="/products">
-                    ابدئي التسوق
+                    اكتشفي منتجاتنا
                     <ArrowLeft className="mr-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" className="px-8">
-                  تعرفي على كليديج
+                  اختبار نوع البشرة
                 </Button>
               </div>
 
               <div className="flex items-center gap-8 justify-center lg:justify-start pt-8">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-brand-600">500+</div>
-                  <div className="text-sm text-gray-600">منتج قريباً</div>
-                </div>
-                <div className="text-center">
                   <div className="text-2xl font-bold text-brand-600">100%</div>
-                  <div className="text-sm text-gray-600">جودة أصلية</div>
+                  <div className="text-sm text-gray-600">طبيعي</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-brand-600">24h</div>
                   <div className="text-sm text-gray-600">توصيل سريع</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-brand-600">30</div>
+                  <div className="text-sm text-gray-600">يوم ضمان</div>
                 </div>
               </div>
             </motion.div>
@@ -81,7 +83,7 @@ export default function Index() {
               <div className="relative z-10">
                 <img
                   src="/placeholder.svg"
-                  alt="Kledje Beauty Products"
+                  alt="Kledje Skincare Products"
                   className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-600/20 to-transparent rounded-2xl"></div>
@@ -93,8 +95,83 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Skincare Categories */}
       <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              منتجات مصممة لبشرتك
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              اكتشفي مجموعتنا المختارة بعناية من منتجات العناي�� بالبشرة
+              الطبيعية
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl"
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500 text-white rounded-full mb-4">
+                <Droplets className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-blue-900">
+                ترطيب عميق
+              </h3>
+              <p className="text-blue-700">
+                منتجات ترطيب غنية بالمكونات الطبيعية لبشرة ناعمة ونضرة
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl"
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500 text-white rounded-full mb-4">
+                <Leaf className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-green-900">
+                تنظيف لطيف
+              </h3>
+              <p className="text-green-700">
+                منظفات طبيعية تزيل الشوائب بلطف مع الحفاظ على توازن البشرة
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl"
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500 text-white rounded-full mb-4">
+                <Sun className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-orange-900">
+                حماية من الشمس
+              </h3>
+              <p className="text-orange-700">
+                واقيات شمس طبيعية توفر حماية فائقة مع تغذية البشرة
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -106,7 +183,7 @@ export default function Index() {
               لماذا كليدج؟
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              نحن ملتزمون بتقديم أفضل تجربة تسوق لمستحضرات التجميل
+              نحن ملتزمون بتقديم أفضل منتجات العناية الطبيعية
             </p>
           </motion.div>
 
@@ -120,9 +197,10 @@ export default function Index() {
               <div className="inline-flex items-center justify-center w-12 h-12 bg-brand-100 text-brand-600 rounded-lg mb-4">
                 <Sparkles className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">جودة عالمية</h3>
+              <h3 className="text-xl font-semibold mb-2">مكونات طبيعية</h3>
               <p className="text-gray-600">
                 منتجات مصنوعة من أفضل المكونات الطبيعية والآمنة على البشرة
+                العربية
               </p>
             </motion.div>
 
@@ -138,7 +216,7 @@ export default function Index() {
               </div>
               <h3 className="text-xl font-semibold mb-2">توصيل سريع</h3>
               <p className="text-gray-600">
-                توصيل مجاني داخل القاهرة والجيزة خلال 24 ساعة
+                توصيل مجاني داخل القاهرة والجيزة خلال 24 ساعة مع تبريد للمنتجات
               </p>
             </motion.div>
 
@@ -154,7 +232,7 @@ export default function Index() {
               </div>
               <h3 className="text-xl font-semibold mb-2">ضمان الجودة</h3>
               <p className="text-gray-600">
-                ضمان استرداد كامل خلال 30 يوم في حالة عدم الرضا
+                ضمان استرداد كامل خلال 30 يوم مع استشارة مجانية من خبراء البشرة
               </p>
             </motion.div>
           </div>
@@ -171,11 +249,11 @@ export default function Index() {
             className="text-center text-white max-w-2xl mx-auto"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              كوني أول من يعرف
+              انضمي لعائلة كليدج
             </h2>
             <p className="text-xl text-brand-100 mb-8">
-              سجلي في نشرتنا الإخبارية وكوني أول من يعلم بافتتاح المتجر والعروض
-              الحصرية
+              سجلي واحصلي على نصائح العناية بالبشرة وأحدث العروض والمنتجات
+              الجديدة
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <Input
@@ -189,7 +267,7 @@ export default function Index() {
               </Button>
             </div>
             <p className="text-sm text-brand-200 mt-4">
-              ستحصلين على خصم 20% على أول طلب لك
+              ستحصلين على خصم 20% على أول طلب + دليل العناية بالبشرة مجاناً
             </p>
           </motion.div>
         </div>
@@ -209,8 +287,10 @@ export default function Index() {
                 <Mail className="h-5 w-5" />
               </div>
               <div className="text-right">
-                <div className="font-semibold text-gray-900">تواصلي معنا</div>
-                <div className="text-gray-600">info@klydij.com</div>
+                <div className="font-semibold text-gray-900">
+                  استشارة مجانية
+                </div>
+                <div className="text-gray-600">info@kledje.com</div>
               </div>
             </motion.div>
 
