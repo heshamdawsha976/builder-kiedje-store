@@ -1,15 +1,19 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Heart, Shield, Truck } from "lucide-react";
+import {
+  ArrowLeft,
+  Sparkles,
+  Heart,
+  Shield,
+  Truck,
+  Mail,
+  Phone,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { products } from "../data/products";
-import { useCartStore } from "../store/cart";
+import { Input } from "@/components/ui/input";
 
 export default function Index() {
-  const { addItem } = useCartStore();
-  const featuredProducts = products.slice(0, 4);
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -24,15 +28,15 @@ export default function Index() {
             >
               <div className="space-y-2">
                 <Badge className="bg-brand-100 text-brand-700 mb-4">
-                  مجموعة جديدة متاحة الآن
+                  قريباً - متجر جديد
                 </Badge>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   جمالك يبدأ من
                   <span className="text-gradient block">كليديج</span>
                 </h1>
                 <p className="text-xl text-gray-600 max-w-lg mx-auto lg:mx-0">
-                  اكتشفي أفخر مستحضرات التجميل المصممة خصيصاً للمرأة العربية
-                  بجودة عالمية وأسعار منافسة
+                  متجر مستحضرات التجميل الأول المصمم خصيصاً للمرأة العربية بجودة
+                  عالمية وأسعار منافسة
                 </p>
               </div>
 
@@ -43,27 +47,27 @@ export default function Index() {
                   asChild
                 >
                   <Link to="/products">
-                    تسوقي الآن
+                    ابدئي التسوق
                     <ArrowLeft className="mr-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" className="px-8">
-                  شاهدي المجموعة
+                  تعرفي على كليديج
                 </Button>
               </div>
 
               <div className="flex items-center gap-8 justify-center lg:justify-start pt-8">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-brand-600">500+</div>
-                  <div className="text-sm text-gray-600">منتج مميز</div>
+                  <div className="text-sm text-gray-600">منتج قريباً</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-brand-600">10k+</div>
-                  <div className="text-sm text-gray-600">عميلة سعيدة</div>
+                  <div className="text-2xl font-bold text-brand-600">100%</div>
+                  <div className="text-sm text-gray-600">جودة أصلية</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-brand-600">98%</div>
-                  <div className="text-sm text-gray-600">رضا العملاء</div>
+                  <div className="text-2xl font-bold text-brand-600">24h</div>
+                  <div className="text-sm text-gray-600">توصيل سريع</div>
                 </div>
               </div>
             </motion.div>
@@ -92,6 +96,20 @@ export default function Index() {
       {/* Features Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              لماذا كليديج؟
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              نحن ملتزمون بتقديم أفضل تجربة تسوق لمستحضرات التجميل
+            </p>
+          </motion.div>
+
           <div className="grid md:grid-cols-3 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -143,87 +161,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              المنتجات المميزة
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              اكتشفي أحدث منتجاتنا المختارة بعناية لتناسب جميع احتياجاتك
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-lg transition-shadow"
-              >
-                <div className="relative">
-                  <img
-                    src={product.image}
-                    alt={product.nameAr}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="absolute top-2 left-2 bg-white/80 hover:bg-white"
-                  >
-                    <Heart className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-1">
-                    {product.nameAr}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {product.descriptionAr}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-brand-600">
-                      {product.price} جنيه
-                    </span>
-                    <Button
-                      size="sm"
-                      onClick={() => addItem(product)}
-                      className="bg-brand-600 hover:bg-brand-700"
-                    >
-                      أضف للسلة
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button
-              variant="outline"
-              size="lg"
-              className="px-8 border-brand-200 text-brand-700 hover:bg-brand-50"
-              asChild
-            >
-              <Link to="/products">
-                عرض جميع المنتجات
-                <ArrowLeft className="mr-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Newsletter Section */}
       <section className="py-16 bg-brand-600">
         <div className="container mx-auto px-4">
@@ -234,23 +171,65 @@ export default function Index() {
             className="text-center text-white max-w-2xl mx-auto"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              اشتركي في نشرتنا الإخبارية
+              كوني أول من يعرف
             </h2>
             <p className="text-xl text-brand-100 mb-8">
-              كوني أول من يعلم بالعروض الجديدة والمنتجات الحصرية
+              سجلي في نشرتنا الإخبارية وكوني أول من يعلم بافتتاح المتجر والعروض
+              الحصرية
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
+              <Input
                 type="email"
                 placeholder="ادخلي بريدك الإلكتروني"
-                className="flex-1 px-4 py-3 rounded-lg text-gray-900 text-right"
+                className="flex-1 px-4 py-3 rounded-lg text-gray-900 text-right bg-white"
                 dir="rtl"
               />
               <Button className="bg-white text-brand-600 hover:bg-gray-100 px-6">
                 اشتراك
               </Button>
             </div>
+            <p className="text-sm text-brand-200 mt-4">
+              ستحصلين على خصم 20% على أول طلب لك
+            </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Info */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-8 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center justify-center gap-3"
+            >
+              <div className="flex items-center justify-center w-10 h-10 bg-brand-100 text-brand-600 rounded-lg">
+                <Mail className="h-5 w-5" />
+              </div>
+              <div className="text-right">
+                <div className="font-semibold text-gray-900">تواصلي معنا</div>
+                <div className="text-gray-600">info@klydij.com</div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="flex items-center justify-center gap-3"
+            >
+              <div className="flex items-center justify-center w-10 h-10 bg-brand-100 text-brand-600 rounded-lg">
+                <Phone className="h-5 w-5" />
+              </div>
+              <div className="text-right">
+                <div className="font-semibold text-gray-900">خدمة العملاء</div>
+                <div className="text-gray-600 ltr">+20 100 123 4567</div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
     </div>
