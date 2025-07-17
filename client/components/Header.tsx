@@ -24,7 +24,7 @@ export function Header() {
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Cart & Wishlist */}
+            {/* Cart (سلة فارغة حاليا) */}
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -38,9 +38,6 @@ export function Header() {
                     {totalItems}
                   </Badge>
                 )}
-              </Button>
-              <Button variant="ghost" size="sm">
-                <Heart className="h-5 w-5" />
               </Button>
             </div>
 
@@ -63,12 +60,8 @@ export function Header() {
               <div className="text-sm text-gray-500 mr-2">Klydij</div>
             </Link>
 
-            {/* Search & Mobile Menu */}
+            {/* Mobile Menu */}
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" className="hidden sm:flex">
-                <Search className="h-5 w-5" />
-              </Button>
-
               <Button
                 variant="ghost"
                 size="sm"
@@ -105,12 +98,6 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))}
-                <div className="pt-3 border-t border-gray-100">
-                  <Button variant="ghost" className="w-full justify-start">
-                    <Search className="h-5 w-5 ml-2" />
-                    البحث
-                  </Button>
-                </div>
               </nav>
             </motion.div>
           )}
