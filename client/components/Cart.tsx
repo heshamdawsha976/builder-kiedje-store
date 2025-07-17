@@ -124,8 +124,11 @@ export function Cart() {
                   </span>
                 </div>
                 <div className="space-y-2">
-                  <Button className="w-full bg-brand-600 hover:bg-brand-700">
-                    إتمام الطلب
+                  <Button
+                    className="w-full bg-brand-600 hover:bg-brand-700"
+                    asChild
+                  >
+                    <Link to="/checkout">إتمام الطلب</Link>
                   </Button>
                   <Button
                     variant="outline"
