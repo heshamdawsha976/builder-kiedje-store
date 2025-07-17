@@ -32,7 +32,7 @@ export default function Index() {
                 </Badge>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   جمالك يبدأ من
-                  <span className="text-gradient block">كليديج</span>
+                  <span className="text-gradient block">كليدج</span>
                 </h1>
                 <p className="text-xl text-gray-600 max-w-lg mx-auto lg:mx-0">
                   متجر مستحضرات التجميل الأول المصمم خصيصاً للمرأة العربية بجودة
@@ -81,7 +81,7 @@ export default function Index() {
               <div className="relative z-10">
                 <img
                   src="/placeholder.svg"
-                  alt="Klydij Beauty Products"
+                  alt="Kledje Beauty Products"
                   className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-600/20 to-transparent rounded-2xl"></div>
@@ -103,7 +103,7 @@ export default function Index() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              لماذا كليديج؟
+              لماذا كليدج؟
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               نحن ملتزمون بتقديم أفضل تجربة تسوق لمستحضرات التجميل
