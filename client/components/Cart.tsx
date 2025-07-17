@@ -1,22 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { X, Plus, Minus, ShoppingBag } from "lucide-react";
+import { X, ShoppingBag } from "lucide-react";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
 import { useCartStore } from "../store/cart";
 
 export function Cart() {
-  const {
-    items,
-    isOpen,
-    toggleCart,
-    updateQuantity,
-    removeItem,
-    getTotalPrice,
-    clearCart,
-  } = useCartStore();
-
-  const total = getTotalPrice();
+  const { items, isOpen, toggleCart } = useCartStore();
 
   return (
     <AnimatePresence>
@@ -47,100 +36,33 @@ export function Cart() {
               </Button>
             </div>
 
-            {/* Cart Items */}
+            {/* Empty Cart Content */}
             <div className="flex-1 overflow-y-auto p-4">
-              {items.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                  <ShoppingBag className="h-12 w-12 text-gray-300 mb-4" />
-                  <p className="text-gray-500 mb-2">سلة التسوق فارغة</p>
-                  <p className="text-sm text-gray-400">
-                    أضف منتجات لتبدأ التسوق
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {items.map((item) => (
-                    <motion.div
-                      key={item.id}
-                      layout
-                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.nameAr}
-                        className="w-16 h-16 object-cover rounded-md"
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-medium text-sm">{item.nameAr}</h3>
-                        <p className="text-brand-600 font-semibold">
-                          {item.price} جنيه
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
-                          }
-                        >
-                          <Minus className="h-3 w-3" />
-                        </Button>
-                        <Badge variant="secondary" className="min-w-[2rem]">
-                          {item.quantity}
-                        </Badge>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                        >
-                          <Plus className="h-3 w-3" />
-                        </Button>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 text-red-500 hover:text-red-600"
-                        onClick={() => removeItem(item.id)}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <ShoppingBag className="h-16 w-16 text-gray-300 mb-6" />
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                  سلة التسوق فارغة
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  ابدئي التسوق لإضافة منتجات إلى سلتك
+                </p>
+                <Button
+                  className="bg-brand-600 hover:bg-brand-700"
+                  onClick={toggleCart}
+                  asChild
+                >
+                  <Link to="/products">تصفح المنتجات</Link>
+                </Button>
+              </div>
             </div>
 
-            {/* Footer */}
-            {items.length > 0 && (
-              <div className="border-t border-gray-100 p-4 space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold">المجموع:</span>
-                  <span className="font-bold text-lg text-brand-600">
-                    {total.toFixed(2)} جنيه
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  <Button
-                    className="w-full bg-brand-600 hover:bg-brand-700"
-                    asChild
-                  >
-                    <Link to="/checkout">إتمام الطلب</Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={clearCart}
-                  >
-                    مسح السلة
-                  </Button>
-                </div>
+            {/* Footer Info */}
+            <div className="border-t border-gray-100 p-4 bg-gray-50">
+              <div className="text-center text-sm text-gray-600">
+                <p className="font-medium mb-1">الدفع عند الاستلام متاح</p>
+                <p>توصيل مجاني للطلبات فوق 500 جنيه</p>
               </div>
-            )}
+            </div>
           </motion.div>
         </>
       )}
