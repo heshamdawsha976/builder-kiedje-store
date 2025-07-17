@@ -11,18 +11,18 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    /* Brand Colors for Klydij Cosmetics */
-    --brand-50: 320 100% 98%;
-    --brand-100: 320 100% 95%;
-    --brand-200: 320 100% 90%;
-    --brand-300: 320 100% 82%;
-    --brand-400: 320 100% 70%;
-    --brand-500: 320 84% 60%;
-    --brand-600: 320 84% 50%;
-    --brand-700: 320 84% 40%;
-    --brand-800: 320 84% 30%;
-    --brand-900: 320 84% 20%;
-    --brand-950: 320 84% 10%;
+    /* Brand Colors for Kledje Skincare - Soft Pastels */
+    --brand-50: 330 60% 98%;
+    --brand-100: 330 50% 95%;
+    --brand-200: 330 45% 88%;
+    --brand-300: 330 40% 78%;
+    --brand-400: 330 35% 68%;
+    --brand-500: 330 30% 58%;
+    --brand-600: 330 28% 48%;
+    --brand-700: 330 25% 38%;
+    --brand-800: 330 22% 28%;
+    --brand-900: 330 20% 18%;
+    --brand-950: 330 18% 8%;
 
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
