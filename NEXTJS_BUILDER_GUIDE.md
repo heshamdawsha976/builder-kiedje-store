@@ -79,9 +79,10 @@ export const metadata: Metadata = {
 
 ### 3. Builder.io Integration
 
-- **Catch-all route**: `app/[[...slug]]/page.tsx`
+- **Builder route**: `app/builder/[[...slug]]/page.tsx`
 - **Visual Editor**: إدارة كاملة للمحتوى
 - **Custom Components**: مكونات مخصصة قابلة للتحكم
+- **URL Structure**: `/builder/your-page-name`
 
 ## المكونات المتاحة في Builder.io
 
@@ -100,7 +101,7 @@ export const metadata: Metadata = {
 
 ```tsx
 // يمكن تخصيص:
-- اسم ال��نتج
+- اسم المنتج
 - الوصف
 - السعر بالجنيه
 - صورة المنتج
