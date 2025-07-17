@@ -3,25 +3,25 @@ import dynamic from "next/dynamic";
 
 // Dynamic imports for Builder.io components
 const ProductCard = dynamic(() =>
-  import("./client/components/builder/ProductCard").then((mod) => ({
+  import("./components/builder/ProductCard").then((mod) => ({
     default: mod.ProductCard,
   })),
 );
 
 const ProductGrid = dynamic(() =>
-  import("./client/components/builder/ProductGrid").then((mod) => ({
+  import("./components/builder/ProductGrid").then((mod) => ({
     default: mod.ProductGrid,
   })),
 );
 
 const HeroSection = dynamic(() =>
-  import("./client/components/builder/HeroSection").then((mod) => ({
+  import("./components/builder/HeroSection").then((mod) => ({
     default: mod.HeroSection,
   })),
 );
 
 const NewsletterSection = dynamic(() =>
-  import("./client/components/builder/NewsletterSection").then((mod) => ({
+  import("./components/builder/NewsletterSection").then((mod) => ({
     default: mod.NewsletterSection,
   })),
 );
