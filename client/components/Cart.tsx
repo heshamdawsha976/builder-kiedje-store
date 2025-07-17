@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { X, Plus, Minus, ShoppingBag } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
