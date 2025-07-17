@@ -91,7 +91,7 @@ export const metadata: Metadata = {
 ```tsx
 // يمكن تخصيص:
 - العنوان الرئيسي
-- النص الفرعي
+- النص الف��عي
 - نص الزر
 - صورة البطل
 - لون الخلفية
@@ -133,16 +133,18 @@ export const metadata: Metadata = {
 
 1. اذهب إلى Builder.io Dashboard
 2. انقر "Create" -> "Page"
-3. اختر URL path (مثل `/new-page`)
+3. اختر URL path (مثل `/builder/new-page`)
 4. اسحب المكونات وخصصها
 5. احفظ ونشر
+6. الوصول للصفحة عبر: `yoursite.com/builder/new-page`
 
-### تعديل الصفحة الرئيسية:
+### إنشاء صفحات Builder.io:
 
 1. أنشئ صفحة جديدة في Builder.io
-2. ضع URL path كـ `/`
-3. استخدم المكونات المتاحة
-4. احفظ ونشر (ستحل محل الصفحة الافتراضية)
+2. ضع URL path كـ `/builder/products` (مثال)
+3. استخدم المكونات المتاحة (ProductGrid, ProductCard)
+4. احفظ ونشر
+5. الوصول عبر: `yoursite.com/builder/products`
 
 ### إضافة منتجات:
 
