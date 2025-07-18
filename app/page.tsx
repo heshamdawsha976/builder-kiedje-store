@@ -222,7 +222,7 @@ export default function HomePage() {
                 >
                   <Badge className="bg-gradient-secondary text-white px-6 py-2 text-lg border-0 hover-glow">
                     <Sparkles className="w-4 h-4 ml-2" />
-                    منتجات ط��يعية 100%
+                    منتجات طبيعية 100%
                   </Badge>
                 </motion.div>
 
@@ -388,8 +388,8 @@ export default function HomePage() {
               منتجات مصممة لبشرتك
             </h2>
             <p className="text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-modern">
-              اكتشفي مجموعتنا المختارة بعناية من منتجات العناية بالبشرة الطبيعية
-              المصممة خصيصاً للمرأة العربية
+              اكتشفي مجموعتنا المختارة بعناية من منتجات العن��ية بالبشرة
+              الطبيعية المصممة خصيصاً للمرأة العربية
             </p>
           </motion.div>
 
@@ -449,7 +449,7 @@ export default function HomePage() {
             <FeatureCard
               icon={Truck}
               title="توصيل سريع"
-              description="توصيل مجاني داخل القاهرة والجيزة خلال 24 ساعة مع تبريد خاص للمنتجات الحساسة"
+              description="توصيل مجاني داخل القاهرة والجيزة خ��ال 24 ساعة مع تبريد خاص للمنتجات الحساسة"
               delay={0.2}
               gradient="from-secondary-50 to-accent-50"
             />
