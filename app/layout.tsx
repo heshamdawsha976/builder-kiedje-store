@@ -50,6 +50,7 @@ export default function RootLayout({
       >
         <ModernHeader />
         <main className="relative">{children}</main>
+        <ModernFooter />
         <Toaster />
       </body>
     </html>
