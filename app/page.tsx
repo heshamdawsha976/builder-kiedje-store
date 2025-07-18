@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { OptimizedImage } from "@/components/ui/optimized-image";
+import { ModernHero } from "@/components/ui/modern-hero";
 import {
   useLazyLoading,
   useSectionLazyLoading,
@@ -260,7 +261,7 @@ export default function HomePage() {
                   transition={{ duration: 0.8, delay: 0.6 }}
                   className="text-2xl text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-modern"
                 >
-                  متجر العناية بالبشرة الطبيعية الأول في مصر. منتجات آمنة
+                  ��تجر العناية بالبشرة الطبيعية الأول في مصر. منتجات آمنة
                   وفعّالة لجميع أنواع البشرة العربية مع تقنيات متطورة وأسعار
                   منافسة
                 </motion.p>
