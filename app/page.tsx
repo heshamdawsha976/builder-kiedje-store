@@ -18,10 +18,16 @@ import {
   Zap,
   Flower,
   Award,
+  TrendingUp,
+  Users,
+  Package,
+  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { OptimizedImage } from "@/components/ui/optimized-image";
+import { useLazyLoading, useSectionLazyLoading } from "@/lib/hooks/use-lazy-loading";
 
 // Floating Particles Component
 const FloatingParticles = () => {
@@ -313,7 +319,7 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Hero Image */}
+                        {/* Hero Image */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -321,35 +327,65 @@ export default function HomePage() {
               className="relative lg:block hidden"
             >
               <div className="relative z-10 hover-lift">
-                <motion.img
+                <motion.div
                   whileHover={{ scale: 1.02, rotate: 1 }}
-                  src="/placeholder.svg"
-                  alt="Kledje Skincare Products"
-                  className="w-full h-[600px] object-cover rounded-3xl shadow-2xl border-4 border-white/50"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-600/30 via-transparent to-accent-300/20 rounded-3xl" />
+                  className="relative overflow-hidden rounded-3xl shadow-2xl border-4 border-white/50"
+                >
+                  <OptimizedImage
+                    src="/placeholder.svg"
+                    alt="Kledje Skincare Products"
+                    width={600}
+                    height={600}
+                    className="w-full h-[600px] object-cover"
+                    priority
+                    animationType="scale"
+                    animationDuration={1.2}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-600/30 via-transparent to-accent-300/20 rounded-3xl" />
 
-                {/* Floating badges */}
+                                {/* Floating badges */}
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
-                  className="absolute top-8 right-8 glass-strong rounded-2xl p-4 text-center"
+                  className="absolute top-8 right-8 glass-strong rounded-2xl p-4 text-center hover:scale-110 transition-transform cursor-pointer"
                 >
-                  <Award className="h-8 w-8 text-accent-600 mx-auto mb-2" />
+                  <motion.div
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Award className="h-8 w-8 text-accent-600 mx-auto mb-2" />
+                  </motion.div>
                   <div className="text-sm font-bold text-gray-800">
                     منتج العام
                   </div>
+                  <Badge className="mt-2 bg-accent-500 text-white text-xs">
+                    2024
+                  </Badge>
                 </motion.div>
 
                 <motion.div
                   animate={{ y: [0, 10, 0] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-                  className="absolute bottom-8 left-8 glass-strong rounded-2xl p-4 text-center"
+                  className="absolute bottom-8 left-8 glass-strong rounded-2xl p-4 text-center hover:scale-110 transition-transform cursor-pointer"
                 >
-                  <Star className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
+                  <div className="flex items-center justify-center mb-2">
+                    {[1, 2, 3, 4, 5].map((star, index) => (
+                      <motion.div
+                        key={star}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: index * 0.1 + 2 }}
+                      >
+                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      </motion.div>
+                    ))}
+                  </div>
                   <div className="text-sm font-bold text-gray-800">
                     تقييم 5 نجوم
                   </div>
+                  <Badge className="mt-2 bg-yellow-500 text-white text-xs">
+                    +1000 تقييم
+                  </Badge>
                 </motion.div>
               </div>
 
@@ -456,7 +492,7 @@ export default function HomePage() {
             <FeatureCard
               icon={Shield}
               title="ضمان الجودة"
-              description="ضمان استرداد كامل خلال 30 يوم مع استشارة مجانية من خبراء البشرة المعتمدين"
+              description="ضمان استرداد كامل خلال 30 يوم مع استشارة مجانية من خبراء البشرة ��لمعتمدين"
               delay={0.4}
               gradient="from-accent-50 to-brand-50"
             />
@@ -518,7 +554,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-xl text-white/80"
             >
-              🎁 ستحصلين على خصم 20% على أول طلب + دليل العناية بالبشرة مجاناً
+              🎁 ستحصلين على خصم 20% على أول طلب + دليل العناية بالبشرة م��اناً
             </motion.p>
           </motion.div>
         </div>
