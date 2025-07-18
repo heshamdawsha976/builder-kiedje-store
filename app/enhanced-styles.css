@@ -122,32 +122,99 @@
   left: 100%;
 }
 
-/* Enhanced Gradients */
+/* Enhanced Gradients - Kledje Brand */
 .bg-gradient-hero {
   background: linear-gradient(
     135deg,
-    rgba(233, 121, 249, 0.1) 0%,
-    rgba(124, 58, 237, 0.05) 25%,
-    rgba(236, 72, 153, 0.1) 50%,
-    rgba(168, 85, 247, 0.05) 75%,
-    rgba(233, 121, 249, 0.1) 100%
+    hsl(260 90% 95%) 0%,
+    hsl(10 90% 95%) 25%,
+    hsl(170 90% 95%) 50%,
+    rgba(255, 255, 255, 0.8) 75%,
+    hsl(260 90% 95%) 100%
+  );
+}
+
+.bg-gradient-kledje {
+  background: linear-gradient(
+    135deg,
+    hsl(260 75% 58%) 0%,
+    hsl(260 70% 48%) 100%
+  );
+}
+
+.bg-gradient-coral {
+  background: linear-gradient(135deg, hsl(10 80% 58%) 0%, hsl(10 75% 48%) 100%);
+}
+
+.bg-gradient-teal {
+  background: linear-gradient(
+    135deg,
+    hsl(170 75% 55%) 0%,
+    hsl(170 70% 45%) 100%
   );
 }
 
 .bg-gradient-primary {
-  background: linear-gradient(135deg, #e879f9 0%, #7c3aed 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(260 75% 58%) 0%,
+    hsl(10 80% 58%) 50%,
+    hsl(170 75% 55%) 100%
+  );
 }
 
 .bg-gradient-secondary {
-  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(10 80% 58%) 0%,
+    hsl(170 75% 55%) 100%
+  );
 }
 
 .bg-gradient-accent {
-  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(170 75% 55%) 0%,
+    hsl(260 75% 58%) 100%
+  );
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #e879f9 0%, #7c3aed 50%, #ec4899 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(260 75% 58%) 0%,
+    hsl(10 80% 58%) 50%,
+    hsl(170 75% 55%) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-kledje {
+  background: linear-gradient(
+    135deg,
+    hsl(260 75% 58%) 0%,
+    hsl(260 70% 48%) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-coral {
+  background: linear-gradient(135deg, hsl(10 80% 58%) 0%, hsl(10 75% 48%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-teal {
+  background: linear-gradient(
+    135deg,
+    hsl(170 75% 55%) 0%,
+    hsl(170 70% 45%) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
