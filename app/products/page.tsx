@@ -1,299 +1,528 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import {
-  Package,
-  ArrowLeft,
-  Sparkles,
-  Heart,
+  Search,
+  Filter,
+  Grid,
+  List,
+  SortAsc,
+  SortDesc,
   Star,
-  Gift,
-  Crown,
+  Heart,
+  ShoppingCart,
+  Eye,
+  ArrowLeft,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { MagneticButton, GlowButton } from "@/components/InteractiveButtons";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { useCartStore } from "@/store/cart";
+import {
+  strapiAPI,
+  type StrapiEntity,
+  type ProductAttributes,
+  type CategoryAttributes,
+  getStrapiImageURL,
+  formatStrapiEntities,
+} from "@/lib/strapi";
 
-// Floating Elements Component
-const FloatingElements = () => {
-  const elements = Array.from({ length: 15 }, (_, i) => i);
+// Product component
+const ProductCard = ({
+  product,
+  onAddToCart,
+}: {
+  product: StrapiEntity<ProductAttributes>;
+  onAddToCart: (product: any) => void;
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {elements.map((element) => (
-        <motion.div
-          key={element}
-          className="absolute"
-          animate={{
-            y: [0, -100, 0],
-            x: [0, Math.random() * 50 - 25, 0],
-            opacity: [0.2, 0.8, 0.2],
-            rotate: [0, 360, 0],
-          }}
-          transition={{
-            duration: Math.random() * 4 + 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: Math.random() * 2,
-          }}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-        >
-          {element % 3 === 0 ? (
-            <Sparkles className="w-4 h-4 text-brand-400" />
-          ) : element % 3 === 1 ? (
-            <Heart className="w-3 h-3 text-secondary-400" />
-          ) : (
-            <Star className="w-3 h-3 text-accent-400" />
-          )}
-        </motion.div>
-      ))}
-    </div>
+  const formattedProduct = {
+    id: product.id,
+    ...product.attributes,
+  };
+
+  const mainImage = getStrapiImageURL(
+    product.attributes.images?.data?.[0] || null,
   );
-};
+  const avgRating = 4.5; // TODO: Calculate from reviews
+  const reviewCount = 12; // TODO: Get from reviews
 
-// Feature Card Component
-const FeatureCard = ({ icon: Icon, title, description, delay = 0 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.6, ease: "backOut" }}
-      whileHover={{ y: -5, scale: 1.02 }}
-      className="glass p-6 rounded-3xl hover-lift group cursor-pointer"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group"
     >
-      <motion.div
-        whileHover={{ scale: 1.1, rotate: 10 }}
-        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary text-white rounded-2xl mb-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-      >
-        <Icon className="h-8 w-8" />
-      </motion.div>
-      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gradient transition-all duration-300">
-        {title}
-      </h3>
-      <p className="text-gray-600 leading-relaxed group-hover:text-gray-800 transition-colors duration-300">
-        {description}
-      </p>
+      <Card className="overflow-hidden hover-lift border-0 shadow-lg">
+        {/* Product Image */}
+        <div className="relative overflow-hidden bg-gray-100">
+          <div className="aspect-square relative">
+            {imageLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+              </div>
+            )}
+            <img
+              src={mainImage}
+              alt={product.attributes.arabicName}
+              className={`w-full h-full object-cover transition-all duration-700 ${
+                isHovered ? "scale-110" : "scale-100"
+              } ${imageLoading ? "opacity-0" : "opacity-100"}`}
+              onLoad={() => setImageLoading(false)}
+              onError={() => setImageLoading(false)}
+            />
+          </div>
+
+          {/* Sale Badge */}
+          {product.attributes.isOnSale && (
+            <motion.div
+              initial={{ scale: 0, rotate: -45 }}
+              animate={{ scale: 1, rotate: 0 }}
+              className="absolute top-3 right-3"
+            >
+              <Badge className="bg-red-500 text-white px-2 py-1">
+                خصم {product.attributes.salePercentage}%
+              </Badge>
+            </motion.div>
+          )}
+
+          {/* Quick Actions */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              y: isHovered ? 0 : 20,
+            }}
+            transition={{ duration: 0.3 }}
+            className="absolute bottom-3 left-3 right-3 flex gap-2"
+          >
+            <Button
+              size="sm"
+              variant="secondary"
+              className="flex-1 bg-white/90 backdrop-blur-sm hover:bg-white"
+            >
+              <Eye className="h-4 w-4 ml-2" />
+              معاينة
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="bg-white/90 backdrop-blur-sm hover:bg-white"
+            >
+              <Heart className="h-4 w-4" />
+            </Button>
+          </motion.div>
+        </div>
+
+        <CardContent className="p-4">
+          {/* Category */}
+          <div className="mb-2">
+            <Badge
+              variant="outline"
+              className="text-xs text-brand-600 border-brand-200"
+            >
+              {product.attributes.category?.data?.attributes.arabicName ||
+                "عام"}
+            </Badge>
+          </div>
+
+          {/* Product Name */}
+          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+            {product.attributes.arabicName}
+          </h3>
+
+          {/* Rating */}
+          <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  className={`h-4 w-4 ${
+                    star <= avgRating
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-gray-600">({reviewCount})</span>
+          </div>
+
+          {/* Price */}
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xl font-bold text-gray-900">
+              {product.attributes.price} ج.م
+            </span>
+            {product.attributes.originalPrice &&
+              product.attributes.originalPrice > product.attributes.price && (
+                <span className="text-sm text-gray-500 line-through">
+                  {product.attributes.originalPrice} ج.م
+                </span>
+              )}
+          </div>
+
+          {/* Add to Cart */}
+          <Button
+            onClick={() => onAddToCart(formattedProduct)}
+            className="w-full bg-gradient-primary hover:shadow-lg"
+            disabled={product.attributes.inventory === 0}
+          >
+            {product.attributes.inventory === 0 ? (
+              "نفد المخزون"
+            ) : (
+              <>
+                <ShoppingCart className="h-4 w-4 ml-2" />
+                إضافة للسلة
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
     </motion.div>
   );
 };
 
+// Main Products Page
 export default function ProductsPage() {
+  const [products, setProducts] = useState<
+    Array<StrapiEntity<ProductAttributes>>
+  >([]);
+  const [categories, setCategories] = useState<
+    Array<StrapiEntity<CategoryAttributes>>
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("name");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const { toast } = useToast();
+  const { addItem } = useCartStore();
+
+  // Fetch products from Strapi
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await strapiAPI.getProducts({
+        page: currentPage,
+        pageSize: 12,
+        category: selectedCategory !== "all" ? selectedCategory : undefined,
+        search: searchTerm || undefined,
+        populate: ["images", "category", "reviews"],
+      });
+
+      setProducts(response.data);
+      setTotalPages(response.meta.pagination?.pageCount || 1);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      toast({
+        title: "خطأ في تحميل المنتجات",
+        description: "حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة مرة أخرى.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch categories from Strapi
+  const fetchCategories = async () => {
+    try {
+      const response = await strapiAPI.getCategories(["image"]);
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  // Initial load
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  // Reload products when filters change
+  useEffect(() => {
+    fetchProducts();
+  }, [currentPage, selectedCategory, searchTerm]);
+
+  // Handle search
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  // Handle category filter
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setCurrentPage(1);
+  };
+
+  // Handle add to cart
+  const handleAddToCart = (product: any) => {
+    addItem({
+      id: product.id.toString(),
+      name: product.arabicName,
+      price: product.price,
+      image: getStrapiImageURL(product.images?.data?.[0] || null),
+      category: product.category?.data?.attributes?.arabicName || "عام",
+    });
+
+    toast({
+      title: "تم إضافة المنتج",
+      description: `تم إضافة ${product.arabicName} إلى السلة`,
+    });
+  };
+
+  // Sort products
+  const sortedProducts = [...products].sort((a, b) => {
+    switch (sortBy) {
+      case "price-low":
+        return a.attributes.price - b.attributes.price;
+      case "price-high":
+        return b.attributes.price - a.attributes.price;
+      case "name":
+        return a.attributes.arabicName.localeCompare(b.attributes.arabicName);
+      default:
+        return 0;
+    }
+  });
+
   return (
-    <div className="min-h-screen bg-gradient-hero relative overflow-hidden">
-      <FloatingElements />
-
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        {/* Hero Section */}
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="container mx-auto px-4">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-4xl mx-auto mb-16"
+          className="text-center mb-12"
         >
-          {/* Main Icon */}
-          <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 1, ease: "backOut" }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center justify-center w-32 h-32 bg-gradient-primary rounded-full shadow-2xl relative">
-              <motion.div
-                animate={{
-                  rotate: [0, 10, -10, 0],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Package className="h-16 w-16 text-white" />
-              </motion.div>
+          <h1 className="text-5xl font-display text-gradient mb-4">
+            متجر كليدج
+          </h1>
+          <p className="text-xl text-gray-600">
+            اكتشفي مجموعتنا المتنوعة من منتجات العناية بالبشرة الطبيعية
+          </p>
+        </motion.div>
 
-              {/* Floating crown */}
-              <motion.div
-                animate={{
-                  y: [0, -10, 0],
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute -top-6 -right-6"
-              >
-                <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center shadow-lg">
-                  <Crown className="h-6 w-6 text-white" />
-                </div>
-              </motion.div>
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-2xl shadow-lg p-6 mb-8"
+        >
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1 relative">
+              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Input
+                placeholder="ابحثي عن منتج..."
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="pr-10 rounded-xl border-gray-300"
+                dir="rtl"
+              />
             </div>
-          </motion.div>
 
-          {/* Text Content */}
+            {/* Category Filter */}
+            <Select
+              value={selectedCategory}
+              onValueChange={handleCategoryChange}
+            >
+              <SelectTrigger className="w-full lg:w-48 rounded-xl">
+                <SelectValue placeholder="اختاري الفئة" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">جميع الفئات</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem
+                    key={category.id}
+                    value={category.attributes.slug}
+                  >
+                    {category.attributes.arabicName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Sort */}
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-full lg:w-48 rounded-xl">
+                <SelectValue placeholder="ترتيب حسب" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="name">الاسم</SelectItem>
+                <SelectItem value="price-low">السعر: من الأقل</SelectItem>
+                <SelectItem value="price-high">السعر: من الأعلى</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* View Mode */}
+            <div className="flex gap-2">
+              <Button
+                variant={viewMode === "grid" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setViewMode("grid")}
+                className="rounded-xl"
+              >
+                <Grid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "list" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setViewMode("list")}
+                className="rounded-xl"
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Results Info */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="flex items-center justify-between mb-6"
+        >
+          <p className="text-gray-600">
+            {loading ? (
+              "جاري التحميل..."
+            ) : (
+              <>
+                عرض {products.length} منتج
+                {searchTerm && ` من البحث عن "${searchTerm}"`}
+                {selectedCategory !== "all" && (
+                  <>
+                    {" "}
+                    في فئة{" "}
+                    {
+                      categories.find(
+                        (c) => c.attributes.slug === selectedCategory,
+                      )?.attributes.arabicName
+                    }
+                  </>
+                )}
+              </>
+            )}
+          </p>
+        </motion.div>
+
+        {/* Products Grid */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-brand-500" />
+          </div>
+        ) : products.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-20"
+          >
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              لم نجد أي منتجات
+            </h3>
+            <p className="text-gray-600 mb-6">
+              جربي البحث بكلمات أخرى أو تصفحي جميع الفئات
+            </p>
+            <Button
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCategory("all");
+              }}
+              className="bg-gradient-primary"
+            >
+              مسح الفلاتر
+            </Button>
+          </motion.div>
+        ) : (
+          <div
+            className={`grid gap-6 ${
+              viewMode === "grid"
+                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                : "grid-cols-1"
+            }`}
+          >
+            {sortedProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <ProductCard product={product} onAddToCart={handleAddToCart} />
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-6"
-          >
-            <Badge className="bg-gradient-secondary text-white px-6 py-2 text-lg border-0 mb-6">
-              <Sparkles className="w-4 h-4 ml-2" />
-              قريباً - مجموعة استثنائية
-            </Badge>
-
-            <h1 className="text-5xl lg:text-7xl font-display leading-tight">
-              <span className="text-gray-900 block">مجموعة منتجات</span>
-              <span className="text-gradient block text-6xl lg:text-8xl font-black">
-                كليدج الفاخرة
-              </span>
-            </h1>
-
-            <p className="text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-modern">
-              نحن نعمل بجد لإنشاء مجموعة استثنائية من أفضل منتجات العناية
-              بالبشرة الطبيعية في العالم، مصممة خصيصاً للمرأة العربية بجودة
-              عالمية ولمسة من الفخامة
-            </p>
-          </motion.div>
-
-          {/* Notification Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="glass-strong p-8 rounded-3xl max-w-2xl mx-auto mt-12 border border-white/30"
-          >
-            <motion.div
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="mb-6"
-            >
-              <Gift className="h-16 w-16 text-gradient mx-auto" />
-            </motion.div>
-
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              🎉 استعدي للإطلاق الكبير
-            </h2>
-            <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-              ستحصلين على أفضل منتجات العناية بالبشرة مع تقنيات متطورة وأسعار لا
-              تقاوم. كوني أول من يعلم!
-            </p>
-
-            {/* Email Signup */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto mb-6"
-            >
-              <input
-                type="email"
-                placeholder="ادخ��ي بريدك للحصول على إشعار فوري"
-                className="flex-1 px-6 py-4 rounded-2xl border-2 border-gray-200 text-gray-900 text-right text-lg focus:border-brand-400 focus:outline-none transition-colors duration-300"
-                dir="rtl"
-              />
-              <GlowButton className="px-8 py-4 whitespace-nowrap">
-                <Sparkles className="w-5 h-5 ml-2" />
-                إشعار فوري
-              </GlowButton>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-              className="text-lg text-gray-600"
-            >
-              💝 ستحصلين على خصم 30% حصري عند الإطلاق + هدية مجانية
-            </motion.p>
-          </motion.div>
-        </motion.div>
-
-        {/* Features Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
-        >
-          <h2 className="text-4xl font-display text-center text-gradient mb-12">
-            ما ينتظرك في مجموعة كليدج
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={Sparkles}
-              title="تقنيات متطورة"
-              description="أحدث تقنيات العناية بالبشرة مع مكونات طبيعية 100% ونتائج مثبتة علمياً"
-              delay={0}
-            />
-            <FeatureCard
-              icon={Crown}
-              title="جودة فاخرة"
-              description="منتجات بمعايير عالمية وتصميم أنيق يليق بجمالك الطبيعي"
-              delay={0.2}
-            />
-            <FeatureCard
-              icon={Heart}
-              title="مصمم خصيصاً"
-              description="مطور خصيصاً للبشرة العربية مع مراعاة احتياجاتها الخاصة"
-              delay={0.4}
-            />
-          </div>
-        </motion.div>
-
-        {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center space-y-6"
-        >
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <MagneticButton
-              variant="primary"
-              size="lg"
-              icon={ArrowLeft}
-              onClick={() => {}}
-            >
-              <Link href="/">العودة للرئيسية</Link>
-            </MagneticButton>
-
-            <MagneticButton
-              variant="outline"
-              size="lg"
-              icon={Heart}
-              onClick={() => {}}
-            >
-              تابعي صفحتنا
-            </MagneticButton>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-lg text-gray-600"
+            className="flex items-center justify-center gap-2 mt-12"
           >
-            <p>💬 أو تواصلي معنا للاستفسارات الخاصة والاستشارات المجانية</p>
-          </motion.div>
-        </motion.div>
-      </div>
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="rounded-xl"
+            >
+              السابق
+            </Button>
 
-      {/* Background Decorations */}
-      <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-primary rounded-full opacity-5 blur-3xl" />
-      <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-accent rounded-full opacity-5 blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-secondary rounded-full opacity-3 blur-3xl" />
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                onClick={() => setCurrentPage(page)}
+                className="rounded-xl w-10 h-10"
+              >
+                {page}
+              </Button>
+            ))}
+
+            <Button
+              variant="outline"
+              onClick={() =>
+                setCurrentPage(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+              className="rounded-xl"
+            >
+              التالي
+            </Button>
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 }
