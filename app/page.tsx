@@ -27,7 +27,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { useLazyLoading, useSectionLazyLoading } from "@/lib/hooks/use-lazy-loading";
+import {
+  useLazyLoading,
+  useSectionLazyLoading,
+} from "@/lib/hooks/use-lazy-loading";
 
 // Floating Particles Component
 const FloatingParticles = () => {
@@ -239,7 +242,7 @@ export default function HomePage() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="block text-gray-900"
                   >
-                    بشرتك تستحق
+                    بشرتك ت��تحق
                   </motion.span>
                   <motion.span
                     initial={{ opacity: 0, x: 50 }}
@@ -319,7 +322,7 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-                        {/* Hero Image */}
+            {/* Hero Image */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -342,8 +345,9 @@ export default function HomePage() {
                     animationDuration={1.2}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-600/30 via-transparent to-accent-300/20 rounded-3xl" />
+                </motion.div>
 
-                                {/* Floating badges */}
+                {/* Floating badges */}
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
@@ -351,7 +355,11 @@ export default function HomePage() {
                 >
                   <motion.div
                     animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                   >
                     <Award className="h-8 w-8 text-accent-600 mx-auto mb-2" />
                   </motion.div>
