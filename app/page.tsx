@@ -1,117 +1,22 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
-  ArrowLeft,
-  Sparkles,
+  Droplets,
   Leaf,
-  Shield,
+  Sun,
+  Flower,
   Truck,
+  Shield,
   Mail,
   Phone,
-  Droplets,
-  Sun,
-  Star,
-  Heart,
-  Zap,
-  Flower,
-  Award,
-  TrendingUp,
-  Users,
-  Package,
-  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { OptimizedImage } from "@/components/ui/optimized-image";
 import { ModernHero } from "@/components/ui/modern-hero";
-import {
-  useLazyLoading,
-  useSectionLazyLoading,
-} from "@/lib/hooks/use-lazy-loading";
 
-// Floating Particles Component
-const FloatingParticles = () => {
-  const particles = Array.from({ length: 20 }, (_, i) => i);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle}
-          className="absolute w-2 h-2 bg-gradient-primary rounded-full opacity-30"
-          animate={{
-            y: [0, -100, 0],
-            x: [0, Math.random() * 100 - 50, 0],
-            opacity: [0.3, 0.8, 0.3],
-          }}
-          transition={{
-            duration: Math.random() * 3 + 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: Math.random() * 2,
-          }}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-// Interactive Feature Card Component
-const FeatureCard = ({
-  icon: Icon,
-  title,
-  description,
-  delay = 0,
-  gradient,
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.6, ease: "easeOut" }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative group"
-    >
-      <div
-        className={`text-center p-8 glass rounded-3xl hover-lift interactive border-gradient ${gradient}`}
-      >
-        <motion.div
-          animate={{
-            scale: isHovered ? 1.1 : 1,
-            rotate: isHovered ? 5 : 0,
-          }}
-          transition={{ duration: 0.3 }}
-          className="inline-flex items-center justify-center w-20 h-20 bg-gradient-primary text-white rounded-2xl mb-6 shadow-lg"
-        >
-          <Icon className="h-10 w-10" />
-        </motion.div>
-        <h3 className="text-2xl font-bold mb-3 text-gradient">{title}</h3>
-        <p className="text-gray-600 leading-relaxed">{description}</p>
-
-        {/* Hover glow effect */}
-        <motion.div
-          className="absolute inset-0 rounded-3xl bg-gradient-primary opacity-0 -z-10"
-          animate={{ opacity: isHovered ? 0.1 : 0 }}
-          transition={{ duration: 0.3 }}
-        />
-      </div>
-    </motion.div>
-  );
-};
-
-// Product Category Card
+// Category Card Component
 const CategoryCard = ({ icon: Icon, title, description, color, delay = 0 }) => {
   return (
     <motion.div
@@ -153,44 +58,37 @@ const CategoryCard = ({ icon: Icon, title, description, color, delay = 0 }) => {
   );
 };
 
-// Stats Counter Component
-const StatsCounter = ({ end, label, suffix = "", delay = 0 }) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let current = 0;
-      const increment = end / 100;
-      const counter = setInterval(() => {
-        current += increment;
-        if (current >= end) {
-          setCount(end);
-          clearInterval(counter);
-        } else {
-          setCount(Math.floor(current));
-        }
-      }, 20);
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, [end, delay]);
-
+// Feature Card Component
+const FeatureCard = ({
+  icon: Icon,
+  title,
+  description,
+  delay = 0,
+  gradient,
+}) => {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: delay / 1000, duration: 0.6, ease: "backOut" }}
-      className="text-center group hover-lift"
+      transition={{ delay, duration: 0.6, ease: "easeOut" }}
+      className="relative group"
     >
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        className="text-4xl font-bold text-gradient mb-2"
+      <div
+        className={`text-center p-8 glass rounded-3xl hover-lift interactive border-gradient ${gradient}`}
       >
-        {count}
-        {suffix}
-      </motion.div>
-      <div className="text-gray-600 font-medium">{label}</div>
+        <motion.div
+          whileHover={{ scale: 1.1, rotate: 5 }}
+          transition={{ duration: 0.3 }}
+          className="inline-flex items-center justify-center w-20 h-20 bg-gradient-kledje text-white rounded-2xl mb-6 shadow-lg"
+        >
+          <Icon className="h-10 w-10" />
+        </motion.div>
+        <h3 className="text-2xl font-bold mb-3 text-gradient-kledje">
+          {title}
+        </h3>
+        <p className="text-gray-600 leading-relaxed">{description}</p>
+      </div>
     </motion.div>
   );
 };
@@ -200,218 +98,10 @@ export default function HomePage() {
     <div className="min-h-screen overflow-hidden">
       {/* Modern Hero Section */}
       <ModernHero />
-        <FloatingParticles />
-
-        {/* Background decorative elements */}
-        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-primary rounded-full opacity-10 blur-3xl float" />
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-accent rounded-full opacity-10 blur-3xl float-delayed" />
-
-        <div className="container mx-auto px-4 py-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              style={{ opacity, scale }}
-              className="text-center lg:text-right space-y-8"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="space-y-6"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="inline-block"
-                >
-                  <Badge className="bg-gradient-secondary text-white px-6 py-2 text-lg border-0 hover-glow">
-                    <Sparkles className="w-4 h-4 ml-2" />
-                    منتجات طبيعية 100%
-                  </Badge>
-                </motion.div>
-
-                <h1 className="text-6xl lg:text-8xl font-display leading-tight">
-                  <motion.span
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="block text-gray-900"
-                  >
-                    بشرتك ت��تحق
-                  </motion.span>
-                  <motion.span
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="block text-gradient text-8xl lg:text-9xl font-black"
-                  >
-                    كليدج
-                  </motion.span>
-                </h1>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="text-2xl text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-modern"
-                >
-                  ��تجر العناية بالبشرة الطبيعية الأول في مصر. منتجات آمنة
-                  وفعّالة لجميع أنواع البشرة العربية مع تقنيات متطورة وأسعار
-                  منافسة
-                </motion.p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Button
-                    size="lg"
-                    className="bg-gradient-primary hover:shadow-2xl text-white px-10 py-4 text-xl rounded-2xl border-0 hover-glow"
-                    asChild
-                  >
-                    <Link href="/products">
-                      <Zap className="ml-2 h-6 w-6" />
-                      اكتشفي منتجاتنا
-                      <ArrowLeft className="mr-2 h-6 w-6" />
-                    </Link>
-                  </Button>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-2 border-brand-300 text-brand-700 hover:bg-gradient-secondary hover:text-white px-10 py-4 text-xl rounded-2xl hover-lift"
-                  >
-                    <Heart className="ml-2 h-6 w-6" />
-                    اختبار نوع البشرة
-                  </Button>
-                </motion.div>
-              </motion.div>
-
-              {/* Stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                className="grid grid-cols-3 gap-8 pt-8"
-              >
-                <StatsCounter end={100} label="طبيعي" suffix="%" delay={0} />
-                <StatsCounter
-                  end={24}
-                  label="ساعة توصيل"
-                  suffix="h"
-                  delay={200}
-                />
-                <StatsCounter end={30} label="يوم ضمان" delay={400} />
-              </motion.div>
-            </motion.div>
-
-            {/* Hero Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1, delay: 0.5, ease: "backOut" }}
-              className="relative lg:block hidden"
-            >
-              <div className="relative z-10 hover-lift">
-                <motion.div
-                  whileHover={{ scale: 1.02, rotate: 1 }}
-                  className="relative overflow-hidden rounded-3xl shadow-2xl border-4 border-white/50"
-                >
-                  <OptimizedImage
-                    src="https://cdn.builder.io/api/v1/image/assets%2Fec4ae7314ee64f3081bd38c6ef00b7df%2F7a885a24c7e54403b735ab61519a4b3d?format=webp&width=800"
-                    alt="كريم مخمرية كليج - منتجات العناية بالبشرة الطبيعية"
-                    width={600}
-                    height={600}
-                    className="w-full h-[600px] object-cover"
-                    priority
-                    animationType="scale"
-                    animationDuration={1.2}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-600/30 via-transparent to-accent-300/20 rounded-3xl" />
-                </motion.div>
-
-                {/* Floating badges */}
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="absolute top-8 right-8 glass-strong rounded-2xl p-4 text-center hover:scale-110 transition-transform cursor-pointer"
-                >
-                  <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  >
-                    <Award className="h-8 w-8 text-accent-600 mx-auto mb-2" />
-                  </motion.div>
-                  <div className="text-sm font-bold text-gray-800">
-                    منتج العام
-                  </div>
-                  <Badge className="mt-2 bg-accent-500 text-white text-xs">
-                    2024
-                  </Badge>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-                  className="absolute bottom-8 left-8 glass-strong rounded-2xl p-4 text-center hover:scale-110 transition-transform cursor-pointer"
-                >
-                  <div className="flex items-center justify-center mb-2">
-                    {[1, 2, 3, 4, 5].map((star, index) => (
-                      <motion.div
-                        key={star}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 + 2 }}
-                      >
-                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      </motion.div>
-                    ))}
-                  </div>
-                  <div className="text-sm font-bold text-gray-800">
-                    تقييم 5 نجوم
-                  </div>
-                  <Badge className="mt-2 bg-yellow-500 text-white text-xs">
-                    +1000 تقييم
-                  </Badge>
-                </motion.div>
-              </div>
-
-              {/* Background decoration */}
-              <div className="absolute -top-8 -right-8 w-full h-full bg-gradient-accent rounded-3xl opacity-20 -z-10" />
-              <div className="absolute top-8 left-8 w-full h-full bg-gradient-secondary rounded-3xl opacity-15 -z-20" />
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-gray-400"
-        >
-          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2" />
-          </div>
-        </motion.div>
-      </section>
 
       {/* Skincare Categories */}
       <section className="py-24 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 via-transparent to-secondary-50/30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-kledje-50/50 via-transparent to-coral-50/30" />
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -421,12 +111,12 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl lg:text-6xl font-display text-gradient mb-6">
+            <h2 className="text-5xl lg:text-6xl font-display text-gradient-kledje mb-6">
               منتجات مصممة لبشرتك
             </h2>
             <p className="text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-modern">
-              اكتشفي مجموعتنا المختارة بعناية من منتجات العن��ية بالبشرة
-              الطبيعية المصممة خصيصاً للمرأة العربية
+              اكتشفي مجموعتنا المختارة بعناية من منتجات العناية بالبشرة الطبيعية
+              المصممة خصيصاً للمرأة العربية
             </p>
           </motion.div>
 
@@ -435,21 +125,21 @@ export default function HomePage() {
               icon={Droplets}
               title="ترطيب عميق"
               description="منتجات ترطيب غنية بالمكونات الطبيعية لبشرة ناعمة ونضرة طوال اليوم"
-              color="bg-gradient-to-br from-blue-400 to-blue-600"
+              color="bg-gradient-to-br from-teal-400 to-teal-600"
               delay={0}
             />
             <CategoryCard
               icon={Leaf}
-              title="تنظيف لطيف"
+              title="ت��ظيف لطيف"
               description="منظفات طبيعية تزيل الشوائب بلطف مع الحفاظ على توازن البشرة الطبيعي"
-              color="bg-gradient-to-br from-green-400 to-green-600"
+              color="bg-gradient-to-br from-kledje-400 to-kledje-600"
               delay={0.2}
             />
             <CategoryCard
               icon={Sun}
               title="حماية من الشمس"
               description="واقيات شمس طبيعية توفر حماية فائقة مع تغذية البشرة بالفيتامينات"
-              color="bg-gradient-to-br from-orange-400 to-orange-600"
+              color="bg-gradient-to-br from-coral-400 to-coral-600"
               delay={0.4}
             />
           </div>
@@ -466,7 +156,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl lg:text-6xl font-display text-gradient mb-6">
+            <h2 className="text-5xl lg:text-6xl font-display text-gradient-coral mb-6">
               لماذا كليدج؟
             </h2>
             <p className="text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-modern">
@@ -481,29 +171,51 @@ export default function HomePage() {
               title="مكونات طبيعية"
               description="منتجات مصنوعة من أفضل المكونات الطبيعية والآمنة على البشرة العربية مع شهادات جودة عالمية"
               delay={0}
-              gradient="from-brand-50 to-secondary-50"
+              gradient="from-kledje-50 to-coral-50"
             />
             <FeatureCard
               icon={Truck}
-              title="��وصيل سريع"
-              description="توصيل مجاني داخل القاهرة والجيزة خ��ال 24 ساعة مع تبريد خاص للمنتجات الحساسة"
+              title="توصيل سريع"
+              description="توصيل مجاني داخل القاهرة والجيزة خلال 24 ساعة مع تبريد خاص للمنتجات الحساسة"
               delay={0.2}
-              gradient="from-secondary-50 to-accent-50"
+              gradient="from-coral-50 to-teal-50"
             />
             <FeatureCard
               icon={Shield}
               title="ضمان الجودة"
-              description="ضمان استرداد كامل خلال 30 يوم مع استشارة مجانية من خبراء البشرة ��لمعتمدين"
+              description="ضمان استرداد كامل خلال 30 يوم مع استشارة مجانية من خبراء البشرة المعتمدين"
               delay={0.4}
-              gradient="from-accent-50 to-brand-50"
+              gradient="from-teal-50 to-kledje-50"
             />
           </div>
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-24 bg-gradient-primary relative overflow-hidden">
-        <FloatingParticles />
+      <section className="py-24 bg-gradient-kledje relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          {Array.from({ length: 20 }, (_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-white rounded-full"
+              animate={{
+                y: [0, -100, 0],
+                x: [0, Math.random() * 100 - 50, 0],
+                opacity: [0.3, 0.8, 0.3],
+              }}
+              transition={{
+                duration: Math.random() * 3 + 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: Math.random() * 2,
+              }}
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+            />
+          ))}
+        </div>
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -541,7 +253,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button className="bg-white text-brand-600 hover:bg-gray-100 px-8 py-4 text-xl rounded-2xl font-bold hover-lift">
+                <Button className="bg-white text-kledje-600 hover:bg-gray-100 px-8 py-4 text-xl rounded-2xl font-bold hover-lift">
                   <Mail className="ml-2 h-6 w-6" />
                   اشتراك مجاني
                 </Button>
@@ -555,7 +267,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-xl text-white/80"
             >
-              🎁 ستحصلين على خصم 20% على أول طلب + دليل العناية بالبشرة م��اناً
+              🎁 ستحصلين على خصم 20% على أول طلب + دليل العناية بالبشرة مجاناً
             </motion.p>
           </motion.div>
         </div>
@@ -574,7 +286,7 @@ export default function HomePage() {
             >
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 5 }}
-                className="flex items-center justify-center w-16 h-16 bg-gradient-primary text-white rounded-2xl shadow-lg"
+                className="flex items-center justify-center w-16 h-16 bg-gradient-coral text-white rounded-2xl shadow-lg"
               >
                 <Mail className="h-8 w-8" />
               </motion.div>
@@ -595,7 +307,7 @@ export default function HomePage() {
             >
               <motion.div
                 whileHover={{ scale: 1.1, rotate: -5 }}
-                className="flex items-center justify-center w-16 h-16 bg-gradient-secondary text-white rounded-2xl shadow-lg"
+                className="flex items-center justify-center w-16 h-16 bg-gradient-teal text-white rounded-2xl shadow-lg"
               >
                 <Phone className="h-8 w-8" />
               </motion.div>
