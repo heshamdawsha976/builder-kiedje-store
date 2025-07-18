@@ -335,8 +335,8 @@ export default function HomePage() {
                   className="relative overflow-hidden rounded-3xl shadow-2xl border-4 border-white/50"
                 >
                   <OptimizedImage
-                    src="/placeholder.svg"
-                    alt="Kledje Skincare Products"
+                    src="https://cdn.builder.io/api/v1/image/assets%2Fec4ae7314ee64f3081bd38c6ef00b7df%2F7a885a24c7e54403b735ab61519a4b3d?format=webp&width=800"
+                    alt="كريم مخمرية كليج - منتجات العناية بالبشرة الطبيعية"
                     width={600}
                     height={600}
                     className="w-full h-[600px] object-cover"
