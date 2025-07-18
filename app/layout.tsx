@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ModernHeader } from "@/components/ui/modern-header";
+import ModernFooter from "@/components/ui/modern-footer";
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "اكتشفي أفضل منتجات العناية بالبشرة الطبيعية 100%. منتجات آمنة وفعّالة للمرأة العربية مع ضمان الجودة وتوصيل مجاني.",
   keywords:
-    "منتجات طبيعية, العناية بالبشرة, ك��يدج, كريمات طبيعية, بوكس العروسة, منتجات آمنة",
+    "منتجات طبيعية, العناية بالبشرة, كليدج, كريمات طبيعية, بوكس العروسة, منتجات آمنة",
   openGraph: {
     title: "كليدج - منتجات العناية بالبشرة الطبيعية",
     description: "اكتشفي أفضل منتجات العناية بالبشرة الطبيعية 100%",
