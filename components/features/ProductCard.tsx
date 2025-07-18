@@ -1,9 +1,8 @@
 "use client";
 
 import { memo, useState, useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Heart,
   ShoppingCart,
@@ -12,7 +11,11 @@ import {
   Package,
   Percent,
   Loader2,
+  Zap,
+  ArrowRight,
 } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/optimized-image";
+import { useLazyLoading } from "@/lib/hooks/use-lazy-loading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -90,15 +93,17 @@ const sizeConfig = {
 
 const ProductImage = memo<ProductImageProps>(
   ({ product, priority = false, size }) => {
-    const [imageLoading, setImageLoading] = useState(true);
-    const [imageError, setImageError] = useState(false);
-
+    const [showHoverImage, setShowHoverImage] = useState(false);
     const config = sizeConfig[size];
     const mainImage = product.images?.[0]?.url || "/placeholder.svg";
     const hoverImage = product.images?.[1]?.url;
 
     return (
-      <div className="relative overflow-hidden bg-gray-100 rounded-xl group">
+      <div
+        className="relative overflow-hidden bg-gray-100 rounded-xl group"
+        onMouseEnter={() => setShowHoverImage(true)}
+        onMouseLeave={() => setShowHoverImage(false)}
+      >
         <div
           className="relative aspect-square"
           style={{
@@ -106,40 +111,43 @@ const ProductImage = memo<ProductImageProps>(
             height: config.image.height,
           }}
         >
-          {/* Loading skeleton */}
-          {imageLoading && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-            </div>
-          )}
-
           {/* Main product image */}
-          <Image
-            src={imageError ? "/placeholder.svg" : mainImage}
+          <OptimizedImage
+            src={mainImage}
             alt={product.arabicName || product.name}
             fill
-            className={`object-cover transition-all duration-700 ${
-              imageLoading ? "opacity-0" : "opacity-100"
-            } ${hoverImage ? "group-hover:opacity-0" : ""}`}
+            className={`object-cover transition-all duration-700 group-hover:scale-105 ${
+              hoverImage && showHoverImage ? "opacity-0" : "opacity-100"
+            }`}
             priority={priority}
-            onLoad={() => setImageLoading(false)}
-            onError={() => {
-              setImageError(true);
-              setImageLoading(false);
-            }}
+            animationType="scale"
+            animationDuration={0.8}
+            lazyLoading={!priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
 
           {/* Hover image */}
-          {hoverImage && !imageError && (
-            <Image
-              src={hoverImage}
-              alt={`${product.arabicName || product.name} - صورة إضافية`}
-              fill
-              className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          )}
+          <AnimatePresence>
+            {hoverImage && showHoverImage && (
+              <motion.div
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1.05 }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                transition={{ duration: 0.7 }}
+                className="absolute inset-0"
+              >
+                <OptimizedImage
+                  src={hoverImage}
+                  alt={`${product.arabicName || product.name} - صورة إضافية`}
+                  fill
+                  className="object-cover"
+                  animationType="fade"
+                  animationDuration={0.7}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Sale badge */}
@@ -147,14 +155,31 @@ const ProductImage = memo<ProductImageProps>(
           <motion.div
             initial={{ scale: 0, rotate: -45 }}
             animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
             className="absolute top-3 right-3 z-10"
           >
-            <Badge className="bg-red-500 text-white px-2 py-1 text-xs font-bold">
-              <Percent className="h-3 w-3 ml-1" />
-              {product.salePercentage}%
+            <Badge className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 text-sm font-bold shadow-lg hover:shadow-xl transition-shadow">
+              <Zap className="h-4 w-4 ml-1 animate-pulse" />
+              خصم {product.salePercentage}%
             </Badge>
           </motion.div>
         )}
+
+        {/* New product badge */}
+        {product.createdAt &&
+          new Date(product.createdAt).getTime() >
+            Date.now() - 7 * 24 * 60 * 60 * 1000 && (
+            <motion.div
+              initial={{ scale: 0, x: 50 }}
+              animate={{ scale: 1, x: 0 }}
+              transition={{ type: "spring", stiffness: 200, delay: 0.3 }}
+              className="absolute top-3 left-3 z-10"
+            >
+              <Badge className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 text-sm font-bold shadow-lg">
+                جديد
+              </Badge>
+            </motion.div>
+          )}
 
         {/* Stock status */}
         {product.inventory === 0 && (
@@ -365,27 +390,44 @@ const ProductActions = memo<ProductActionsProps>(
         </motion.div>
 
         {/* Add to cart button */}
-        <Button
-          onClick={handleAddToCart}
-          disabled={product.inventory === 0 || isAddingToCart || isInCart}
-          className="w-full bg-gradient-primary hover:shadow-lg transition-all duration-300"
-        >
-          {isAddingToCart ? (
-            <>
-              <Loader2 className="h-4 w-4 ml-2 animate-spin" />
-              جاري الإضافة...
-            </>
-          ) : isInCart ? (
-            "موجود في السلة"
-          ) : product.inventory === 0 ? (
-            "نفد المخزون"
-          ) : (
-            <>
-              <ShoppingCart className="h-4 w-4 ml-2" />
-              إضافة للسلة
-            </>
-          )}
-        </Button>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button
+            onClick={handleAddToCart}
+            disabled={product.inventory === 0 || isAddingToCart || isInCart}
+            className="w-full bg-gradient-primary hover:shadow-xl transition-all duration-300 group/btn relative overflow-hidden"
+          >
+            <div className="relative z-10 flex items-center justify-center">
+              {isAddingToCart ? (
+                <>
+                  <Loader2 className="h-4 w-4 ml-2 animate-spin" />
+                  جاري الإضافة...
+                </>
+              ) : isInCart ? (
+                <>
+                  <ShoppingCart className="h-4 w-4 ml-2 fill-current" />
+                  موجود في السلة
+                </>
+              ) : product.inventory === 0 ? (
+                <>
+                  <Package className="h-4 w-4 ml-2" />
+                  نفد المخزون
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="h-4 w-4 ml-2 transition-transform group-hover/btn:scale-110" />
+                  إضافة للسلة
+                  <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover/btn:opacity-100 transition-all duration-300 transform group-hover/btn:translate-x-1" />
+                </>
+              )}
+            </div>
+
+            {/* Button glow effect */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"
+              initial={false}
+            />
+          </Button>
+        </motion.div>
       </div>
     );
   },
@@ -411,12 +453,24 @@ export const ProductCard = memo<ProductCardProps>(
     const [isHovered, setIsHovered] = useState(false);
     const config = sizeConfig[size];
 
+    // Lazy loading for the card
+    const { elementRef, isVisible } = useLazyLoading<HTMLDivElement>({
+      threshold: 0.1,
+      rootMargin: "100px",
+      triggerOnce: true,
+    });
+
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ y: -5 }}
+        ref={elementRef}
+        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+        animate={
+          isVisible
+            ? { opacity: 1, y: 0, scale: 1 }
+            : { opacity: 0, y: 20, scale: 0.95 }
+        }
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        whileHover={{ y: -8, scale: 1.02 }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`group ${config.container} ${className}`}
