@@ -7,53 +7,54 @@
 
 @layer base {
   /**
-   * Kledje Premium Color System - نظام ألوان كليدج المتطور
+   * Kledje Premium Color System - نظام ألوان كليج المتطور
    * Advanced gradient color palette for skincare & beauty
    */
   :root {
-    /* Primary Brand Colors - متدرج وردي ذهبي فاخر */
-    --brand-50: 315 100% 98%;
-    --brand-100: 315 100% 95%;
-    --brand-200: 315 85% 90%;
-    --brand-300: 315 80% 82%;
-    --brand-400: 315 75% 72%;
-    --brand-500: 315 70% 62%;
-    --brand-600: 315 65% 52%;
-    --brand-700: 315 60% 42%;
-    --brand-800: 315 55% 32%;
-    --brand-900: 315 50% 22%;
-    --brand-950: 315 45% 12%;
+    /* Primary Brand Colors - متدرج بنفسجي كليج الجديد */
+    --kledje-50: 260 100% 98%;
+    --kledje-100: 260 100% 95%;
+    --kledje-200: 260 90% 88%;
+    --kledje-300: 260 85% 78%;
+    --kledje-400: 260 80% 68%;
+    --kledje-500: 260 75% 58%;
+    --kledje-600: 260 70% 48%;
+    --kledje-700: 260 65% 38%;
+    --kledje-800: 260 60% 28%;
+    --kledje-900: 260 55% 18%;
+    --kledje-950: 260 50% 12%;
 
-    /* Secondary Colors - تدرج بنفسجي أنيق */
-    --secondary-50: 270 100% 98%;
-    --secondary-100: 270 100% 95%;
-    --secondary-200: 270 85% 88%;
-    --secondary-300: 270 80% 78%;
-    --secondary-400: 270 75% 68%;
-    --secondary-500: 270 70% 58%;
-    --secondary-600: 270 65% 48%;
-    --secondary-700: 270 60% 38%;
-    --secondary-800: 270 55% 28%;
-    --secondary-900: 270 50% 18%;
+    /* Secondary Colors - كورال طبيعي وردي */
+    --coral-50: 10 100% 97%;
+    --coral-100: 10 100% 94%;
+    --coral-200: 10 95% 87%;
+    --coral-300: 10 90% 78%;
+    --coral-400: 10 85% 68%;
+    --coral-500: 10 80% 58%;
+    --coral-600: 10 75% 48%;
+    --coral-700: 10 70% 38%;
+    --coral-800: 10 65% 28%;
+    --coral-900: 10 60% 18%;
 
-    /* Accent Colors - تدرج ذهبي لامع */
-    --accent-50: 45 100% 98%;
-    --accent-100: 45 100% 95%;
-    --accent-200: 45 95% 88%;
-    --accent-300: 45 90% 78%;
-    --accent-400: 45 85% 68%;
-    --accent-500: 45 80% 58%;
-    --accent-600: 45 75% 48%;
-    --accent-700: 45 70% 38%;
-    --accent-800: 45 65% 28%;
-    --accent-900: 45 60% 18%;
+    /* Accent Colors - تيل أخضر طبيعي */
+    --teal-50: 170 100% 97%;
+    --teal-100: 170 95% 92%;
+    --teal-200: 170 90% 85%;
+    --teal-300: 170 85% 75%;
+    --teal-400: 170 80% 65%;
+    --teal-500: 170 75% 55%;
+    --teal-600: 170 70% 45%;
+    --teal-700: 170 65% 35%;
+    --teal-800: 170 60% 25%;
+    --teal-900: 170 55% 15%;
 
-    /* Nature Colors - ألوان طبيعية للعناية بالبشرة */
-    --nature-mint: 150 60% 85%;
-    --nature-sage: 120 40% 75%;
-    --nature-lavender: 240 50% 85%;
-    --nature-peach: 20 80% 85%;
-    --nature-cream: 35 30% 92%;
+    /* Nature Colors - ألوان طبيعية محدثة */
+    --nature-sunflower: 45 95% 65%;
+    --nature-sage: 120 30% 70%;
+    --nature-lavender: 240 40% 80%;
+    --nature-peach: 20 85% 78%;
+    --nature-cream: 35 40% 95%;
+    --nature-ocean: 200 60% 85%;
 
     /* Core System Colors */
     --background: 0 0% 100%;
@@ -62,48 +63,63 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 315 70% 62%;
+    --primary: 260 75% 58%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 45 80% 58%;
+    --accent: 170 75% 55%;
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 315 70% 62%;
+    --ring: 260 75% 58%;
     --radius: 0.75rem;
 
-    /* Gradient Variables - متغيرات التدرجات */
+    /* Gradient Variables - متغيرات التدرجات الجديدة */
     --gradient-primary: linear-gradient(
       135deg,
-      hsl(var(--brand-400)),
-      hsl(var(--brand-600)),
-      hsl(var(--secondary-500))
+      hsl(var(--kledje-400)),
+      hsl(var(--kledje-600)),
+      hsl(var(--coral-500))
     );
     --gradient-secondary: linear-gradient(
       135deg,
-      hsl(var(--secondary-300)),
-      hsl(var(--brand-400))
+      hsl(var(--coral-300)),
+      hsl(var(--teal-400))
     );
     --gradient-accent: linear-gradient(
       135deg,
-      hsl(var(--accent-300)),
-      hsl(var(--accent-600))
+      hsl(var(--teal-300)),
+      hsl(var(--teal-600))
     );
     --gradient-hero: linear-gradient(
       135deg,
-      hsl(var(--brand-50)),
-      hsl(var(--secondary-100)),
-      hsl(var(--accent-100))
+      hsl(var(--kledje-50)),
+      hsl(var(--coral-100)),
+      hsl(var(--teal-100))
     );
     --gradient-card: linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.9),
       rgba(255, 255, 255, 0.7)
+    );
+    --gradient-kledje: linear-gradient(
+      135deg,
+      hsl(var(--kledje-400)),
+      hsl(var(--kledje-600))
+    );
+    --gradient-coral: linear-gradient(
+      135deg,
+      hsl(var(--coral-300)),
+      hsl(var(--coral-500))
+    );
+    --gradient-teal: linear-gradient(
+      135deg,
+      hsl(var(--teal-300)),
+      hsl(var(--teal-500))
     );
 
     /* Glass Effect Variables */
@@ -124,19 +140,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 315 70% 62%;
+    --primary: 260 75% 58%;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 45 80% 58%;
+    --accent: 170 75% 55%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 315 70% 62%;
+    --ring: 260 75% 58%;
   }
 }
 
@@ -190,6 +206,30 @@
     color: transparent;
   }
 
+  .text-gradient-kledje {
+    background: var(--gradient-kledje);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-coral {
+    background: var(--gradient-coral);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-teal {
+    background: var(--gradient-teal);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
   /* Background Gradients */
   .bg-gradient-primary {
     background: var(--gradient-primary);
@@ -209,6 +249,18 @@
 
   .bg-gradient-card {
     background: var(--gradient-card);
+  }
+
+  .bg-gradient-kledje {
+    background: var(--gradient-kledje);
+  }
+
+  .bg-gradient-coral {
+    background: var(--gradient-coral);
+  }
+
+  .bg-gradient-teal {
+    background: var(--gradient-teal);
   }
 
   /* Glass Morphism Effects */
@@ -264,7 +316,7 @@
 
   .hover-glow:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 0 30px hsl(var(--kledje-400) / 0.4);
   }
 
   /* Floating Animation */
@@ -294,10 +346,10 @@
 
   @keyframes pulse-glow {
     from {
-      box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+      box-shadow: 0 0 20px hsl(var(--kledje-400) / 0.3);
     }
     to {
-      box-shadow: 0 0 40px rgba(255, 105, 180, 0.6);
+      box-shadow: 0 0 40px hsl(var(--kledje-400) / 0.6);
     }
   }
 
@@ -346,8 +398,8 @@
   }
 
   /* Nature Themed Colors */
-  .nature-mint {
-    color: hsl(var(--nature-mint));
+  .nature-sunflower {
+    color: hsl(var(--nature-sunflower));
   }
 
   .nature-sage {
@@ -364,6 +416,10 @@
 
   .nature-cream {
     color: hsl(var(--nature-cream));
+  }
+
+  .nature-ocean {
+    color: hsl(var(--nature-ocean));
   }
 
   /* Interactive Elements */
@@ -423,6 +479,6 @@
 
 /* Selection Colors */
 ::selection {
-  background: hsla(var(--brand-500), 0.3);
+  background: hsla(var(--kledje-500), 0.3);
   color: hsl(var(--foreground));
 }
