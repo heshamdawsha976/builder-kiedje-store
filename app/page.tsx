@@ -196,18 +196,10 @@ const StatsCounter = ({ end, label, suffix = "", delay = 0 }) => {
 };
 
 export default function HomePage() {
-  const { scrollYProgress } = useScroll();
-  const springProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-  });
-  const opacity = useTransform(springProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(springProgress, [0, 0.5], [1, 0.8]);
-
   return (
     <div className="min-h-screen overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center bg-gradient-hero overflow-hidden">
+      {/* Modern Hero Section */}
+      <ModernHero />
         <FloatingParticles />
 
         {/* Background decorative elements */}
@@ -493,7 +485,7 @@ export default function HomePage() {
             />
             <FeatureCard
               icon={Truck}
-              title="توصيل سريع"
+              title="��وصيل سريع"
               description="توصيل مجاني داخل القاهرة والجيزة خ��ال 24 ساعة مع تبريد خاص للمنتجات الحساسة"
               delay={0.2}
               gradient="from-secondary-50 to-accent-50"
